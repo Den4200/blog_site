@@ -14,7 +14,7 @@ import os
 import environ
 
 
-ENV = environ.Env(
+env = environ.Env(
     DEBUG=(bool, True)
 )
 
@@ -38,7 +38,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'blog',
-    'crisy_forms',
+    'users',
+    'markdownx',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,6 +124,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -131,5 +135,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'blog', 'static')
+    os.path.join(BASE_DIR, 'blog', 'static'),
+    os.path.join(BASE_DIR, 'users', 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

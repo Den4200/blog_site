@@ -11,6 +11,7 @@ pre-commit = "*"
 django = "*"
 django-environ = "*"
 django-crispy-forms = "*"
+django-markdownx = "*"
 
 [requires]
 python_version = "3.8"

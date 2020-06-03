@@ -1,7 +1,11 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 from django.views import View
 
 from users.forms import LoginForm, RegisterForm
+from users.models import User
+
 
 class LoginView(View):
     template_name = 'users/login.html'

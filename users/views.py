@@ -25,7 +25,7 @@ class LoginView(View):
         form = LoginForm(request.POST)
 
         if not form.is_valid():
-            messages.error(request, 'Invalid form')
+            messages.error(request, 'Invalid form', extra_tags='danger')
             return redirect('login')
 
         user = authenticate(
@@ -39,9 +39,12 @@ class LoginView(View):
 
             redirect_url = request.session.get('next')
             request.session['next'] = None
+
+            messages.success(request, 'Login successful')
+
             return redirect(redirect_url or '/')
 
-        messages.error(request, 'Invalid username or password')
+        messages.error(request, 'Invalid username or password', extra_tags='danger')
         return redirect('login')
 
 
@@ -64,20 +67,21 @@ class RegisterView(View):
         error = False
 
         if not form.is_valid():
-            messages.error(request, 'Invalid form')
+            messages.error(request, 'Invalid form', extra_tags='danger')
             error = True
 
-        if form.cleaned_data['password1'] != form.cleaned_data['password2']:
-            messages.error(request, 'Passwords do not match')
-            error = True
+        else:
+            if form.cleaned_data['password1'] != form.cleaned_data['password2']:
+                messages.error(request, 'Passwords do not match', extra_tags='danger')
+                error = True
 
-        if len(User.objects.filter(username=form.cleaned_data['username'])) > 0:
-            messages.error(request, 'Username already exists')
-            error = True
+            if len(User.objects.filter(username=form.cleaned_data['username'])) > 0:
+                messages.error(request, 'Username already exists', extra_tags='danger')
+                error = True
 
-        if len(User.objects.filter(email=form.cleaned_data['email'])) > 0:
-            messages.error(request, 'Email already in use')
-            error = True
+            if len(User.objects.filter(email=form.cleaned_data['email'])) > 0:
+                messages.error(request, 'Email already in use', extra_tags='danger')
+                error = True
 
         if error:
             return redirect('register')
@@ -88,5 +92,7 @@ class RegisterView(View):
         )
         user.set_password(form.cleaned_data['password1'])
         user.save()
+
+        messages.success(request, 'Registration successful')
 
         return redirect('login')

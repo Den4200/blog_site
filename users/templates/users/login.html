@@ -11,19 +11,6 @@
 <form method="POST">
     {% csrf_token %}
 
-    {% for message in messages %}
-
-        <div class="alert alert-danger">
-            <a href="#" class="close" data-dismiss="alert">
-                <button type="button" class="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </a>
-            {{ message }}
-        </div>
-
-    {% endfor %}
-
     {{ form|crispy }}
 
     <button class="btn btn-primary">Login</button>

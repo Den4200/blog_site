@@ -8,10 +8,14 @@
 
 <h2>Login</h2>
 
+<hr>
+
 <form method="POST">
     {% csrf_token %}
 
     {{ form|crispy }}
+
+    <hr>
 
     <button class="btn btn-primary">Login</button>
 </form>

@@ -13,14 +13,43 @@
 
 <h2>Profile</h2>
 
+<hr>
+
 <div class="content-section">
     <div class="media">
         <img class="rounded-circle account-img" src="{{ user_query.profile.profile_picture.url }}">
         <div class="media-body">
             <h2>{{ user_query.username }}</h2>
-            <p class="text-secondary">{{ user_query.email }}</p>
+
+            {% if user_query.first_name and user_query.last_name %}
+                <p class="text-secondary">
+                    <strong>Name:</strong> {{ user_query.first_name }} {{ user_query.last_name }}
+                    <br>
+                    <strong>Email:</strong> {{ user_query.email }}
+                </p>
+            {% else %}
+                <p class="text-secondary">
+                    <strong>Email:</strong> {{ user_query.email }}
+                </p>
+            {% endif %}
         </div>
+
+        {% if user_query.profile.description %}
+            <p>{{ user_query.profile.description}}</p>
+        {% endif %}
+
     </div>
+
+    <hr>
+
+    {% if user_query.id == user.id %}
+
+        <a href="#">
+            <button class="btn btn-primary btn-sm">Edit Profile</button>
+        </a>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

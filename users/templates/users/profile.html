@@ -1,0 +1,26 @@
+{% extends "users/base.html" %}
+
+{% block title %} - Profile {% endblock %}
+
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/profile.css' %}">
+
+{% endblock %}
+
+{% block body %}
+
+<h2>Profile</h2>
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user_query.profile.profile_picture.url }}">
+        <div class="media-body">
+            <h2>Username</h2>
+            <p class="text-secondary">{{ user_query.email }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,10 +1,25 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
 
 from users.forms import LoginForm, RegisterForm
 from users.models import User
+
+
+class ProfileView(LoginRequiredMixin, View):
+    template_name = 'users/profile.html'
+
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            raise Http404('User does not exist')
+        else:
+            # TODO: Compare user query with request user to see if the profile can be edited
+            return render(request, self.template_name, {'user_query': user})
 
 
 class LoginView(View):

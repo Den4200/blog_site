@@ -37,8 +37,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'blog',
-    'users',
+    'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
     'markdownx',
     'crispy_forms',
     'django.contrib.admin',

@@ -4,7 +4,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
 
-from users.forms import LoginForm, RegisterForm
+from users.forms import LoginForm, RegisterForm, UpdateProfileForm, UpdateUserForm
 from users.models import User
 
 
@@ -64,6 +64,37 @@ class LoginView(View):
         messages.error(request, 'Invalid username or password', extra_tags='danger')
         return redirect('login')
 
+
+class UpdateProfileView(View):
+    template_name = 'users/update_profile.html'    
+
+    def get(self, request):
+        context = {
+            'user_form': UpdateUserForm(instance=request.user),
+            'profile_form': UpdateProfileForm(instance=request.user.profile)
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        user_form = UpdateUserForm(
+            request.POST,
+            instance=request.user
+        )
+        profile_form = UpdateProfileForm(
+            request.POST,
+            request.FILES,
+            instance=request.user.profile
+        )
+
+        if not user_form.is_valid() or not profile_form.is_valid():
+            messages.error(request, 'Invalid form', extra_tags='danger')
+            return redirect('update_profile')
+
+        user_form.save()
+        profile_form.save()
+
+        messages.success(request, 'Your profile has been successfully updated')
+        return redirect('profile')
 
 class RegisterView(View):
     template_name = 'users/register.html'

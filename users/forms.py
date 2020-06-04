@@ -1,5 +1,7 @@
 from django import forms
 
+from users.models import Profile, User
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=32, widget=forms.TextInput(
@@ -36,3 +38,18 @@ class RegisterForm(forms.Form):
             'placeholder': 'Password'
         }
     ))
+
+
+class UpdateUserForm(forms.ModelForm):
+    email = forms.EmailField(max_length=32)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class UpdateProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['profile_picture', 'description']

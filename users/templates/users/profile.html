@@ -33,18 +33,20 @@
                 </p>
             {% endif %}
         </div>
-
-        {% if user_query.profile.description %}
-            <p>{{ user_query.profile.description}}</p>
-        {% endif %}
-
     </div>
 
     <hr>
 
+    <h4>Description</h4>
+    {% if user_query.profile.description %}
+        <p>{{ user_query.profile.description}}</p>
+    {% endif %}
+
     {% if user_query.id == user.id %}
 
-        <a href="#">
+        <hr>
+
+        <a href="{% url 'update_profile' %}">
             <button class="btn btn-primary btn-sm">Edit Profile</button>
         </a>
 

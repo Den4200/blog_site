@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
@@ -9,11 +8,11 @@ from users.forms import LoginForm, RegisterForm
 from users.models import User
 
 
-class ProfileView(LoginRequiredMixin, View):
+class ProfileView(View):
     template_name = 'users/profile.html'
 
     def get(self, request, user_id=None):
-        if user_id is None:
+        if user_id is None and request.user.is_authenticated:
             return redirect('profile', user_id=request.user.id)
 
         try:

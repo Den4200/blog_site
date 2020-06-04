@@ -134,5 +134,5 @@ proj_init.py
 *.db
 *.sqlite3
 
-# Videos
-videos/
+# Profile Pictures
+profile_pictures/

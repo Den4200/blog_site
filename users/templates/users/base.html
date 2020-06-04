@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1reCloud Blogs {% block title %} {% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'blog/base.css' %}">
+    <link rel="stylesheet" href="{% static 'users/base.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     {% block head %}
@@ -46,40 +46,21 @@
     <br><br><br>
 
     <main role="main" class="container">
-        <div class="row">
-            <div class="col-md-8">
-                {% for message in messages %}
+        {% for message in messages %}
 
-                    <div class="alert alert-{{ message.tags }}">
-                        <a href="#" class="close" data-dismiss="alert">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </a>
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-
-                {% block body %}
-                {% endblock %}
+            <div class="alert alert-{{ message.tags }}">
+                <a href="#" class="close" data-dismiss="alert">
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </a>
+                {{ message }}
             </div>
-            <div class="col-md-4">
-                <div class="content-section">
-                    <h3>Sidebar</h3>
 
-                    <p class="text-muted">This is the sidebar.
+        {% endfor %}
 
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Latest Posts</li>
-                            <li class="list-group-item list-group-item-light">Anouncements</li>
-                            <li class="list-group-item list-group-item-light">More Information</li>
-                        </ul>
-
-                    </p>
-                </div>
-            </div>
-        </div>
+        {% block body %}
+        {% endblock %}
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

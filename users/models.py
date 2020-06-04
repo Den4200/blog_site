@@ -7,4 +7,4 @@ class Profile(models.Model):
 
     profile_picture = models.ImageField(default='default.png', upload_to='profile_pictures')
 
-    description = models.TextField(max_length=4096)
+    description = models.TextField(max_length=4096, blank=True)

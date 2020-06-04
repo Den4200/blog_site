@@ -21,7 +21,7 @@
         <div class="media-body">
             <h2>{{ user_query.username }}</h2>
 
-            {% if user_query.first_name and user_query.last_name %}
+            {% if user_query.first_name or user_query.last_name %}
                 <p class="text-secondary">
                     <strong>Name:</strong> {{ user_query.first_name }} {{ user_query.last_name }}
                     <br>

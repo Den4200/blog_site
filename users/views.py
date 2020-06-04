@@ -12,7 +12,10 @@ from users.models import User
 class ProfileView(LoginRequiredMixin, View):
     template_name = 'users/profile.html'
 
-    def get(self, request, user_id):
+    def get(self, request, user_id=None):
+        if user_id is None:
+            return redirect('profile', user_id=request.user.id)
+
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:

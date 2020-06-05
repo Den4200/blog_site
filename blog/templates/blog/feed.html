@@ -20,7 +20,7 @@
                 {% csrf_token %}
                 <small class="vote-count">{{ post.downvote_set.all|length }}</small>
                 <a href="#" onclick="this.parentNode.submit()">
-                    <img src="{% static 'blog/downvote.png' %}" alt="Downvote" class="vote">
+                    <img src="{% static 'blog/downvote.png' %}" alt="Downvote" class="vote {% if post.downvoted %}lighten{% endif %}">
                 </a>
             </form>
 
@@ -28,7 +28,7 @@
                 {% csrf_token %}
                 <small class="vote-count">{{ post.upvote_set.all|length }}</small>
                 <a href="#" onclick="this.parentNode.submit()">
-                    <img src="{% static 'blog/upvote.png' %}" alt="Upvote" class="vote hue-rotate">
+                    <img src="{% static 'blog/upvote.png' %}" alt="Upvote" class="vote {% if post.upvoted %}lighten{% endif %}">
                 </a>
             </form>
 

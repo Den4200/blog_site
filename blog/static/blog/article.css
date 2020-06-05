@@ -54,6 +54,6 @@ a.article-title:hover {
     margin-right: 15px;
 }
 
-.invert {
+.lighten {
     filter: invert(50%);
 }

@@ -19,6 +19,16 @@ class IndexView(View):
         for post in posts:
             post.content = markdownify(post.content)
 
+            post.updated = False
+            post.downvoted = False
+
+            if request.user.is_authenticated():
+                if any(p.user == request.user for p in post.upvote_set.all()):
+                    post.upvoted = True
+
+                if any(p.user == request.user for p in post.downvote_set.all()):
+                    post.downvoted = True
+
         paginator = Paginator(posts, 2)
         page_obj = paginator.get_page(request.GET.get('page'))
 

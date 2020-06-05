@@ -66,7 +66,7 @@ class LoginView(View):
 
 
 class UpdateProfileView(View):
-    template_name = 'users/update_profile.html'    
+    template_name = 'users/update_profile.html'
 
     def get(self, request):
         context = {
@@ -95,6 +95,7 @@ class UpdateProfileView(View):
 
         messages.success(request, 'Your profile has been successfully updated')
         return redirect('profile')
+
 
 class RegisterView(View):
     template_name = 'users/register.html'

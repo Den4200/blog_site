@@ -4,9 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from markdownx.utils import markdownify
 
 from blog.models import BlogPost
+from blog.utils import prepare_posts
 from users.forms import LoginForm, RegisterForm, UpdateProfileForm, UpdateUserForm
 from users.models import User
 
@@ -19,20 +19,9 @@ class ProfileView(View):
             return redirect('profile', user_id=request.user.id)
 
         user = get_object_or_404(User, id=user_id)
+
         posts = BlogPost.objects.filter(user=user).order_by('-created_at')
-
-        for post in posts:
-            post.content = markdownify(post.content)
-
-            post.updated = False
-            post.downvoted = False
-
-            if request.user.is_authenticated():
-                if any(p.user == request.user for p in post.upvote_set.all()):
-                    post.upvoted = True
-
-                if any(p.user == request.user for p in post.downvote_set.all()):
-                    post.downvoted = True
+        posts = prepare_posts(request, *posts)
 
         paginator = Paginator(posts, 2)
         page_obj = paginator.get_page(request.GET.get('page'))

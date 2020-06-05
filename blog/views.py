@@ -4,10 +4,10 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from markdownx.utils import markdownify
 
 from blog.forms import BlogPostForm
 from blog.models import BlogPost, DownVote, Upvote
+from blog.utils import prepare_posts
 
 
 class IndexView(View):
@@ -15,19 +15,7 @@ class IndexView(View):
 
     def get(self, request):
         posts = BlogPost.objects.order_by('-created_at')
-
-        for post in posts:
-            post.content = markdownify(post.content)
-
-            post.updated = False
-            post.downvoted = False
-
-            if request.user.is_authenticated():
-                if any(p.user == request.user for p in post.upvote_set.all()):
-                    post.upvoted = True
-
-                if any(p.user == request.user for p in post.downvote_set.all()):
-                    post.downvoted = True
+        posts = prepare_posts(request, *posts)
 
         paginator = Paginator(posts, 2)
         page_obj = paginator.get_page(request.GET.get('page'))
@@ -61,7 +49,8 @@ class BlogPostView(View):
 
     def get(self, request, post_id):
         blog_post = get_object_or_404(BlogPost, id=post_id)
-        blog_post.content = markdownify(blog_post.content)
+        blog_post = prepare_posts(request, blog_post)
+
         return render(request, self.template_name, {'blog_post': blog_post})
 
 

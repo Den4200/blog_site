@@ -1,5 +1,12 @@
 {% extends "blog/base.html" %}
 
+{% block head %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'blog/article.css' %}">
+
+{% endblock %}
+
 {% load crispy_forms_tags %}
 
 {% block title %} - New Post {% endblock %}
@@ -10,6 +17,17 @@
 
 <hr>
 
-{{ blog_post.content|safe }}
+<article class="media">
+    <a href="{% url 'profile' blog_post.user.id %}">
+        <img class="rounded-circle article-img" src="{{ blog_post.user.profile.profile_picture.url }}">
+    </a>
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'profile' blog_post.user.id %}">{{ blog_post.user }}</a>
+            <small class="text-muted">{{ blog_post.created_at|date:"F d, Y" }}</small>
+        </div>  
+    <p class="article-content">{{ blog_post.content|safe }}</p>
+    </div>
+</article>
 
 {% endblock %}

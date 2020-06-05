@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} - New Post {% endblock %}
+
+{% block body %}
+
+<h2>{{ blog_post.title }}</h2>
+
+<hr>
+
+{{ blog_post.content|safe }}
+
+{% endblock %}

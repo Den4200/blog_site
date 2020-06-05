@@ -136,3 +136,6 @@ proj_init.py
 
 # Profile Pictures
 profile_pictures/
+
+# MarkdownX Image Uploads
+markdownx/

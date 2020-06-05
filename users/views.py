@@ -2,8 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.http import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from markdownx.utils import markdownify
 
@@ -19,26 +18,22 @@ class ProfileView(View):
         if user_id is None and request.user.is_authenticated:
             return redirect('profile', user_id=request.user.id)
 
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            raise Http404('User does not exist')
-        else:
-            posts = BlogPost.objects.filter(user=user).order_by('-created_at')
+        user = get_object_or_404(User, id=user_id)
+        posts = BlogPost.objects.filter(user=user).order_by('-created_at')
 
-            for post in posts:
-                post.content = markdownify(post.content)
+        for post in posts:
+            post.content = markdownify(post.content)
 
-            paginator = Paginator(posts, 2)
-            page_obj = paginator.get_page(request.GET.get('page'))
+        paginator = Paginator(posts, 2)
+        page_obj = paginator.get_page(request.GET.get('page'))
 
-            context = {
-                'is_paginated': True,
-                'page_obj': page_obj,
-                'user_query': user
-            }
+        context = {
+            'is_paginated': True,
+            'page_obj': page_obj,
+            'user_query': user
+        }
 
-            return render(request, self.template_name, context)
+        return render(request, self.template_name, context)
 
 
 class LoginView(View):

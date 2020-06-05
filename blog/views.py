@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponseForbidden
-from django.shortcuts import redirect, render
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from markdownx.utils import markdownify
 
@@ -50,68 +50,52 @@ class BlogPostView(View):
     template_name = 'blog/blog_post.html'
 
     def get(self, request, post_id):
-        try:
-            blog_post = BlogPost.objects.get(id=post_id)
-        except BlogPost.DoesNotExist:
-            raise Http404('Blog post does not exist')
-        else:
-            blog_post.content = markdownify(blog_post.content)
-            return render(request, self.template_name, {'blog_post': blog_post})
+        blog_post = get_object_or_404(BlogPost, id=post_id)
+        blog_post.content = markdownify(blog_post.content)
+        return render(request, self.template_name, {'blog_post': blog_post})
 
 
 class UpdatePostView(LoginRequiredMixin, View):
     template_name = 'blog/update_post.html'
 
     def get(self, request, post_id):
-        try:
-            blog_post = BlogPost.objects.get(id=post_id)
-        except BlogPost.DoesNotExist:
-            raise Http404('Blog post does not exist')
-        else:
-            if request.user != blog_post.user:
-                return HttpResponseForbidden('You are not allowed to edit this post')
+        blog_post = get_object_or_404(BlogPost, id=post_id)
 
-            form = BlogPostForm(instance=blog_post)
-            return render(request, self.template_name, {'form': form, 'blog_post': blog_post})
+        if request.user != blog_post.user:
+            return HttpResponseForbidden('You are not allowed to edit this post')
+
+        form = BlogPostForm(instance=blog_post)
+        return render(request, self.template_name, {'form': form, 'blog_post': blog_post})
 
     def post(self, request, post_id):
-        try:
-            blog_post = BlogPost.objects.get(id=post_id)
-        except BlogPost.DoesNotExist:
-            raise Http404('Blog post does not exist')
-        else:
-            if request.user != blog_post.user:
-                return HttpResponseForbidden('You are not allowed to edit this post')
+        blog_post = get_object_or_404(BlogPost, id=post_id)
 
-            form = BlogPostForm(request.POST, instance=blog_post)
-            form.save()
+        if request.user != blog_post.user:
+            return HttpResponseForbidden('You are not allowed to edit this post')
 
-            messages.success(request, 'Post updated successfully')
-            return redirect('blog_post', post_id=post_id)
+        form = BlogPostForm(request.POST, instance=blog_post)
+        form.save()
+
+        messages.success(request, 'Post updated successfully')
+        return redirect('blog_post', post_id=post_id)
 
 
 class DeletePostView(LoginRequiredMixin, View):
     template_name = 'blog/delete_post.html'
 
     def get(self, request, post_id):
-        try:
-            blog_post = BlogPost.objects.get(id=post_id)
-        except BlogPost.DoesNotExist:
-            raise Http404('Blog post does not exist')
-        else:
-            if request.user != blog_post.user:
-                return HttpResponseForbidden('You are not allowed to delete this post')
+        blog_post = get_object_or_404(BlogPost, id=post_id)
 
-            return render(request, self.template_name, {'blog_post': blog_post})
+        if request.user != blog_post.user:
+            return HttpResponseForbidden('You are not allowed to delete this post')
+
+        return render(request, self.template_name, {'blog_post': blog_post})
 
     def post(self, request, post_id):
-        try:
-            blog_post = BlogPost.objects.get(id=post_id)
-        except BlogPost.DoesNotExist:
-            raise Http404('Blog post does not exist')
-        else:
-            if request.user != blog_post.user:
-                return HttpResponseForbidden('You are not allowed to delete this post')
+        blog_post = get_object_or_404(BlogPost, id=post_id)
 
-            blog_post.delete()
-            return redirect('index')
+        if request.user != blog_post.user:
+            return HttpResponseForbidden('You are not allowed to delete this post')
+
+        blog_post.delete()
+        return redirect('index')

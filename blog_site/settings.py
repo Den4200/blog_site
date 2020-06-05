@@ -126,7 +126,7 @@ USE_TZ = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_URL = 'users/login'
+LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = '/'
 

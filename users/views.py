@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
@@ -65,7 +66,7 @@ class LoginView(View):
         return redirect('login')
 
 
-class UpdateProfileView(View):
+class UpdateProfileView(LoginRequiredMixin, View):
     template_name = 'users/update_profile.html'
 
     def get(self, request):

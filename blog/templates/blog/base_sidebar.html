@@ -49,21 +49,40 @@
     <br>
 
     <main role="main" class="container">
-        {% for message in messages %}
+        <div class="row">
+            <div class="col-md-8">
+                {% for message in messages %}
 
-            <div class="alert alert-{{ message.tags }}">
-                <a href="#" class="close" data-dismiss="alert">
-                    <button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </a>
-                {{ message }}
+                    <div class="alert alert-{{ message.tags }}">
+                        <a href="#" class="close" data-dismiss="alert">
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </a>
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+                {% block body %}
+                {% endblock %}
             </div>
+            <div class="col-md-4">
+                <div class="content-section">
+                    <h3>Sidebar</h3>
 
-        {% endfor %}
+                    <p class="text-muted">This is the sidebar.
 
-        {% block body %}
-        {% endblock %}
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Latest Posts</li>
+                            <li class="list-group-item list-group-item-light">Anouncements</li>
+                            <li class="list-group-item list-group-item-light">More Information</li>
+                        </ul>
+
+                    </p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

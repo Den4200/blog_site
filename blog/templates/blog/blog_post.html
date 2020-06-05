@@ -30,7 +30,7 @@
             <i><small class="text-muted mr-2">Last edited: {{ blog_post.last_edited|date:"F d, Y" }}</small></i>
             {% endif %}
 
-            {% if request.user.id == blog_post.user.id %}
+            {% if request.user == blog_post.user %}
                 <a href="{% url 'update_post' blog_post.id %}">
                     <button class="btn btn-outline-info btn-sm">Edit Article</button>
                 </a>

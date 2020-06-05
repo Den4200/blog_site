@@ -64,7 +64,7 @@ class UpdatePostView(LoginRequiredMixin, View):
         except BlogPost.DoesNotExist:
             raise Http404('Blog post does not exist')
         else:
-            if request.user.id != blog_post.user.id:
+            if request.user != blog_post.user:
                 return HttpResponseForbidden('You are not allowed to edit this post')
 
             form = BlogPostForm(instance=blog_post)
@@ -76,7 +76,7 @@ class UpdatePostView(LoginRequiredMixin, View):
         except BlogPost.DoesNotExist:
             raise Http404('Blog post does not exist')
         else:
-            if request.user.id != blog_post.user.id:
+            if request.user != blog_post.user:
                 return HttpResponseForbidden('You are not allowed to edit this post')
 
             form = BlogPostForm(request.POST, instance=blog_post)

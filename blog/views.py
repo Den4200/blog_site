@@ -36,7 +36,7 @@ class CreatePostView(LoginRequiredMixin, View):
         return redirect('blog_post', post_id=post.id)
 
 
-class BlogPostView(LoginRequiredMixin, View):
+class BlogPostView(View):
     template_name = 'blog/blog_post.html'
 
     def get(self, request, post_id):

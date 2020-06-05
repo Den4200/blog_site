@@ -1,33 +1,11 @@
 {% extends "blog/base_sidebar.html" %}
 
-{% block head %}
-
-{% load static %}
-<link rel="stylesheet" href="{% static 'blog/article.css' %}">
-
-{% endblock %}
-
 {% block body %}
 
 <h2>Latest Posts</h2>
 
 <hr>
 
-{% for post in posts %}
-    <article class="media content-section">
-        <a href="{% url 'profile' post.user.id %}">
-            <img class="rounded-circle article-img" src="{{ post.user.profile.profile_picture.url }}">
-        </a>
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'profile' post.user.id %}">{{ post.user }}</a>
-                <small class="text-muted">{{ post.created_at|date:"F d, Y" }}</small>
-            </div>
-
-        <h2><a class="article-title" href="{% url 'blog_post' post.id %}">{{ post.title }}</a></h2>
-        <p class="article-content">{{ post.content|safe }}</p>
-        </div>
-    </article>
-{% endfor %}
+{% include 'blog/feed.html' %}
 
 {% endblock %}

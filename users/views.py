@@ -4,7 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
+from markdownx.utils import markdownify
 
+from blog.models import BlogPost
 from users.forms import LoginForm, RegisterForm, UpdateProfileForm, UpdateUserForm
 from users.models import User
 
@@ -21,8 +23,12 @@ class ProfileView(View):
         except User.DoesNotExist:
             raise Http404('User does not exist')
         else:
-            # TODO: Compare user query with request user to see if the profile can be edited
-            return render(request, self.template_name, {'user_query': user})
+            posts = BlogPost.objects.filter(user=user)
+
+            for post in posts:
+                post.content = markdownify(post.content)
+
+            return render(request, self.template_name, {'user_query': user, 'posts': posts})
 
 
 class LoginView(View):

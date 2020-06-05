@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.views import View
@@ -18,7 +19,10 @@ class IndexView(View):
         for post in posts:
             post.content = markdownify(post.content)
 
-        return render(request, self.template_name, {'posts': posts})
+        paginator = Paginator(posts, 2)
+        page_obj = paginator.get_page(request.GET.get('page'))
+
+        return render(request, self.template_name, {'is_paginated': True, 'page_obj': page_obj})
 
 
 class CreatePostView(LoginRequiredMixin, View):

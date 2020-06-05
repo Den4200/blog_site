@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.views import View
@@ -28,7 +29,16 @@ class ProfileView(View):
             for post in posts:
                 post.content = markdownify(post.content)
 
-            return render(request, self.template_name, {'user_query': user, 'posts': posts})
+            paginator = Paginator(posts, 2)
+            page_obj = paginator.get_page(request.GET.get('page'))
+
+            context = {
+                'is_paginated': True,
+                'page_obj': page_obj,
+                'user_query': user
+            }
+
+            return render(request, self.template_name, context)
 
 
 class LoginView(View):

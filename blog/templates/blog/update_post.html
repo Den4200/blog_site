@@ -18,7 +18,8 @@
     <hr>
 
     <button class="btn btn-primary">Update Post</button>
-</form>        
+    <a href="{% url 'delete_post' blog_post.id %}" class="btn btn-danger">Delete Post</a>
+</form>
 
 {{ form.media }}
 

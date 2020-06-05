@@ -68,7 +68,7 @@ class UpdatePostView(LoginRequiredMixin, View):
                 return HttpResponseForbidden('You are not allowed to edit this post')
 
             form = BlogPostForm(instance=blog_post)
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form, 'blog_post': blog_post})
 
     def post(self, request, post_id):
         try:
@@ -84,3 +84,30 @@ class UpdatePostView(LoginRequiredMixin, View):
 
             messages.success(request, 'Post updated successfully')
             return redirect('blog_post', post_id=post_id)
+
+
+class DeletePostView(LoginRequiredMixin, View):
+    template_name = 'blog/delete_post.html'
+
+    def get(self, request, post_id):
+        try:
+            blog_post = BlogPost.objects.get(id=post_id)
+        except BlogPost.DoesNotExist:
+            raise Http404('Blog post does not exist')
+        else:
+            if request.user != blog_post.user:
+                return HttpResponseForbidden('You are not allowed to delete this post')
+
+            return render(request, self.template_name, {'blog_post': blog_post})
+
+    def post(self, request, post_id):
+        try:
+            blog_post = BlogPost.objects.get(id=post_id)
+        except BlogPost.DoesNotExist:
+            raise Http404('Blog post does not exist')
+        else:
+            if request.user != blog_post.user:
+                return HttpResponseForbidden('You are not allowed to delete this post')
+
+            blog_post.delete()
+            return redirect('index')

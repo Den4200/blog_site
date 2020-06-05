@@ -12,7 +12,12 @@ class IndexView(View):
     template_name = 'blog/index.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        posts = BlogPost.objects.order_by('-created_at')
+
+        for post in posts:
+            post.content = markdownify(post.content)
+
+        return render(request, self.template_name, {'posts': posts})
 
 
 class CreatePostView(LoginRequiredMixin, View):

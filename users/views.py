@@ -23,7 +23,7 @@ class ProfileView(View):
         except User.DoesNotExist:
             raise Http404('User does not exist')
         else:
-            posts = BlogPost.objects.filter(user=user)
+            posts = BlogPost.objects.filter(user=user).order_by('-created_at')
 
             for post in posts:
                 post.content = markdownify(post.content)

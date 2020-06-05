@@ -9,7 +9,7 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %} - New Post {% endblock %}
+{% block title %} - {{ blog_post.title }} {% endblock %}
 
 {% block body %}
 
@@ -24,7 +24,17 @@
     <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'profile' blog_post.user.id %}">{{ blog_post.user }}</a>
-            <small class="text-muted">{{ blog_post.created_at|date:"F d, Y" }}</small>
+            <small class="text-muted mr-2">{{ blog_post.created_at|date:"F d, Y" }}</small>
+
+            {% if blog_post.created_at != blog_post.last_edited %}
+            <i><small class="text-muted mr-2">Last edited: {{ blog_post.last_edited|date:"F d, Y" }}</small></i>
+            {% endif %}
+
+            {% if request.user.id == blog_post.user.id %}
+                <a href="{% url 'update_post' blog_post.id %}">
+                    <button class="btn btn-outline-info btn-sm">Edit Article</button>
+                </a>
+            {% endif %}
         </div>  
     <p class="article-content">{{ blog_post.content|safe }}</p>
     </div>

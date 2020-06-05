@@ -40,3 +40,20 @@ a.article-title:hover {
     border-radius: 3px;
     margin-bottom: 20px;
 }
+
+.vote {
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+    float: right;
+}
+
+.vote-count {
+    vertical-align: middle;
+    float: right;
+    margin-right: 15px;
+}
+
+.invert {
+    filter: invert(50%);
+}

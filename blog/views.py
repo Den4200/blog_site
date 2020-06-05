@@ -7,7 +7,7 @@ from django.views import View
 from markdownx.utils import markdownify
 
 from blog.forms import BlogPostForm
-from blog.models import BlogPost
+from blog.models import BlogPost, DownVote, Upvote
 
 
 class IndexView(View):
@@ -98,4 +98,48 @@ class DeletePostView(LoginRequiredMixin, View):
             return HttpResponseForbidden('You are not allowed to delete this post')
 
         blog_post.delete()
-        return redirect('index')
+        return redirect('/')
+
+
+class UpvoteView(LoginRequiredMixin, View):
+
+    def get(self, request, post_id):
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    def post(self, request, post_id):
+        blog_post = get_object_or_404(BlogPost, id=post_id)
+
+        if any(post.user == request.user for post in blog_post.upvote_set.all()):
+            upvote = blog_post.upvote_set.get(user=request.user)
+            upvote.delete()
+        else:
+            upvote = Upvote.objects.create(blog_post=blog_post, user=request.user)
+            upvote.save()
+
+            if any(post.user == request.user for post in blog_post.downvote_set.all()):
+                downvote = blog_post.downvote_set.get(user=request.user)
+                downvote.delete()
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class DownVoteView(LoginRequiredMixin, View):
+
+    def get(self, request, post_id):
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    def post(self, request, post_id):
+        blog_post = get_object_or_404(BlogPost, id=post_id)
+
+        if any(post.user == request.user for post in blog_post.downvote_set.all()):
+            downvote = blog_post.downvote_set.get(user=request.user)
+            downvote.delete()
+        else:
+            downvote = DownVote.objects.create(blog_post=blog_post, user=request.user)
+            downvote.save()
+
+            if any(post.user == request.user for post in blog_post.upvote_set.all()):
+                upvote = blog_post.upvote_set.get(user=request.user)
+                upvote.delete()
+
+        return redirect(request.META.get('HTTP_REFERER', '/'))

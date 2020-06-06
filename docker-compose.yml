@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  f1recloud:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile
+    expose:
+      - 5000
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      VIRTUAL_HOST: f1recloud.com
+    restart: always
+    volumes:
+      - "./:/app/"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: scripts/nginx/Dockerfile
+    ports:
+      - 8000:80
+    depends_on:
+      - f1recloud
+    volumes:
+      - "./static/:/static/"
+      - "./media/:/media/"

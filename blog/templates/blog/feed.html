@@ -5,6 +5,8 @@
 
 {% endblock %}
 
+{% load markdownify %}
+
 {% for post in page_obj %}
     <article class="media content-section">
         <a href="{% url 'profile' post.user.id %}">
@@ -33,7 +35,7 @@
             </form>
 
         <h2><a class="article-title" href="{% url 'blog_post' post.id %}">{{ post.title }}</a></h2>
-        <p class="article-content">{{ post.content|safe }}</p>
+        {{ post.content | markdown | safe }}
         </div>
     </article>
 {% endfor %}

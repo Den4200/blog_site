@@ -12,6 +12,8 @@ django = "*"
 django-environ = "*"
 django-crispy-forms = "*"
 django-markdownx = "*"
+pygments = "*"
+mistune = "*"
 
 [requires]
 python_version = "3.8"

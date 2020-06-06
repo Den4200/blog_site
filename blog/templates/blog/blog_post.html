@@ -7,7 +7,7 @@
 
 {% endblock %}
 
-{% load crispy_forms_tags %}
+{% load markdownify %}
 
 {% block title %} - {{ blog_post.title }} {% endblock %}
 
@@ -52,7 +52,7 @@
                 </a>
             {% endif %}
         </div>  
-    <p class="article-content">{{ blog_post.content|safe }}</p>
+    <p class="article-content">{{ blog_post.content | markdown | safe }}</p>
     </div>
 </article>
 

@@ -1,10 +1,5 @@
-from markdownx.utils import markdownify
-
-
 def prepare_posts(request, *posts):
     for post in posts:
-        post.content = markdownify(post.content)
-
         post.updated = False
         post.downvoted = False
 

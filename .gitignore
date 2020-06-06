@@ -133,6 +133,7 @@ proj_init.py
 # Databases
 *.db
 *.sqlite3
+postgres_data/
 
 # Profile Pictures
 profile_pictures/

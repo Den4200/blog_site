@@ -10,6 +10,4 @@ def prepare_posts(request, *posts):
             if any(p.user == request.user for p in post.downvote_set.all()):
                 post.downvoted = True
 
-    if len(posts) > 1:
-        return posts
-    return posts[0]
+    return posts

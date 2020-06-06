@@ -49,7 +49,7 @@ class BlogPostView(View):
 
     def get(self, request, post_id):
         blog_post = get_object_or_404(BlogPost, id=post_id)
-        blog_post = prepare_posts(request, blog_post)
+        blog_post = prepare_posts(request, blog_post)[0]
 
         return render(request, self.template_name, {'blog_post': blog_post})
 

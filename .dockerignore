@@ -12,3 +12,5 @@ Vagrantfile
 .gitignore
 .travis.yml
 *.log
+.pre-commit-config.yaml
+.flake8

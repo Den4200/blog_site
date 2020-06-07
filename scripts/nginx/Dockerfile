@@ -9,7 +9,3 @@ ENV NGINX_MAX_UPLOAD 100m
 ADD scripts/nginx/nginx.conf /etc/nginx/nginx.conf
 
 COPY scripts/nginx/uwsgi_params .
-
-COPY static /var/www/f1recloud.com
-
-COPY media /var/www/f1recloud.com

@@ -38,8 +38,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./static/:/static/
-      - ./media/:/media/
+      - ./static/:/app/static/
+      - ./media/:/app/media/
     depends_on:
       - uwsgi
 

@@ -10,7 +10,7 @@ ENV PIP_NO_CACHE_DIR=false \
     PIPENV_NOSPIN=1
 
 # Create non-root user.
-RUN useradd --system --shell /bin/false --uid 1500 f1recloud
+# RUN useradd --system --shell /bin/false --uid 1500 f1recloud
 
 # Copy the project files into working directory
 WORKDIR /app

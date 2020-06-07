@@ -7,6 +7,8 @@
 
 {% endblock %}
 
+
+{% load crispy_forms_tags %}
 {% load markdownify %}
 
 {% block title %} - {{ blog_post.title }} {% endblock %}
@@ -53,5 +55,39 @@
     <p class="article-content">{{ blog_post.content | markdown | safe }}</p>
     </div>
 </article>
+
+<hr>
+
+<h2>Comments</h2>
+<form action="{% url 'comment_post' blog_post.id %}" method="POST">
+    {% csrf_token %}
+
+    {{ comment_form|crispy }}
+
+    <button class="btn btn-primary" style="float: right;">Post Comment</button>
+</form>
+
+<hr>
+
+{% for comment in comments %}
+
+<div class="media">
+    <a href="{% url 'profile' comment.user.id %}">
+        <img class="rounded-circle article-img" src="{{ comment.user.profile.profile_picture.url }}">
+    </a>
+    <div class="media-body">
+        <div class="article-metadata" style="border-bottom: 0px;">
+            <a class="mr-2" href="{% url 'profile' comment.user.id %}">{{ comment.user }}</a>
+
+            <small class="text-muted">{{ comment.created_at|date:"F d, Y" }}</small>
+            <i><small class="text-muted mr-2">Last edited: {{ comment.last_edited|date:"F d, Y" }}</small></i>
+        </div>
+        {{ comment.content }}
+    </div>
+</div>
+
+<hr>
+
+{% endfor %}
 
 {% endblock %}

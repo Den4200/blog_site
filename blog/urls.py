@@ -2,6 +2,7 @@ from django.urls import path
 
 from blog.views import (
     BlogPostView,
+    CommentView,
     CreatePostView,
     DeletePostView,
     DownVoteView,
@@ -19,4 +20,5 @@ urlpatterns = [
     path('post/<int:post_id>/delete/', DeletePostView.as_view(), name='delete_post'),
     path('post/<int:post_id>/upvote/', UpvoteView.as_view(), name='upvote_post'),
     path('post/<int:post_id>/downvote/', DownVoteView.as_view(), name='downvote_post'),
+    path('post/<int:post_id>/comment/', CommentView.as_view(), name='comment_post')
 ]

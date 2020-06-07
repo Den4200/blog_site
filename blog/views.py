@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
-from blog.forms import BlogPostForm
+from blog.forms import BlogPostForm, CommentForm
 from blog.models import BlogPost, DownVote, Upvote
 from blog.utils import prepare_posts
 
@@ -51,7 +51,36 @@ class BlogPostView(View):
         blog_post = get_object_or_404(BlogPost, id=post_id)
         blog_post = prepare_posts(request, blog_post)[0]
 
-        return render(request, self.template_name, {'blog_post': blog_post})
+        comment_form = CommentForm()
+        comments = blog_post.comment_set.all()
+
+        context = {
+            'blog_post': blog_post,
+            'comment_form': comment_form,
+            'comments': comments
+        }
+
+        return render(request, self.template_name, context)
+
+
+class CommentView(LoginRequiredMixin, View):
+
+    def get(self, request, post_id):
+        blog_post = get_object_or_404(BlogPost, id=post_id)
+        return redirect('blog_post', post_id=post_id)
+
+    def post(self, request, post_id):
+        blog_post = get_object_or_404(BlogPost, id=post_id)
+
+        form = CommentForm(request.POST)
+        comment = form.save(commit=False)
+
+        comment.blog_post = blog_post
+        comment.user = request.user
+
+        comment.save()
+
+        return redirect('blog_post', post_id=post_id)
 
 
 class UpdatePostView(LoginRequiredMixin, View):

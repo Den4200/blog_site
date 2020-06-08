@@ -69,17 +69,21 @@
             </div>
             <div class="col-md-4">
                 <div class="content-section">
-                    <h3>Sidebar</h3>
+                    <h3>F1reCloud Blogs</h3>
 
-                    <p class="text-muted">This is the sidebar.
-
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Latest Posts</li>
-                            <li class="list-group-item list-group-item-light">Anouncements</li>
-                            <li class="list-group-item list-group-item-light">More Information</li>
-                        </ul>
-
+                    <p class="text-muted">
+                        Enjoy your stay :)
                     </p>
+
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light">
+                            <a href="{% url 'index' %}">Latest Posts</a>
+                        </li>
+                        <li class="list-group-item list-group-item-light">
+                            <a href="{% url 'hot_posts' %}">Hot Posts</a>
+                        </li>
+                        <li class="list-group-item list-group-item-light">Announcements</li>
+                    </ul>
                 </div>
             </div>
         </div>

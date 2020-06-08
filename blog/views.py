@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -15,6 +16,19 @@ class IndexView(View):
 
     def get(self, request):
         posts = BlogPost.objects.order_by('-created_at')
+        posts = prepare_posts(request, *posts)
+
+        paginator = Paginator(posts, 2)
+        page_obj = paginator.get_page(request.GET.get('page'))
+
+        return render(request, self.template_name, {'is_paginated': True, 'page_obj': page_obj})
+
+
+class HotPostsView(View):
+    template_name = 'blog/hot_posts.html'
+
+    def get(self, request):
+        posts = BlogPost.objects.annotate(num_posts=Count('upvote')).order_by('-num_posts')
         posts = prepare_posts(request, *posts)
 
         paginator = Paginator(posts, 2)

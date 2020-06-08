@@ -28,7 +28,7 @@ class HotPostsView(View):
     template_name = 'blog/hot_posts.html'
 
     def get(self, request):
-        posts = BlogPost.objects.annotate(num_posts=Count('upvote')).order_by('-num_posts')
+        posts = BlogPost.objects.annotate(num_upvotes=Count('upvote')).order_by('-num_upvotes')
         posts = prepare_posts(request, *posts)
 
         paginator = Paginator(posts, 2)

@@ -1,7 +1,7 @@
 # Blog Site
 This is a [blog site](https://blog.f1recloud.com/) I have created for myself and some friends. However, feel free to signup and create your own posts on there! You can also host this yourself if you'd like.
 
-# Setup
+## Setup
 Just make sure you have docker and docker-compose installed on your system. There are lots of tutorials out there on the internet on how to install them. 
 
 Once you have those both installed, run this command: `docker-compose up` And that's it! The site should be up and running.
